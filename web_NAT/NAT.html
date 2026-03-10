@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Miss You Ruvic - My Love</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        .page.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3rem, 10vw, 8rem);
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .btn {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .heart {
+            position: absolute;
+            color: #ff6b9d;
+            font-size: 20px;
+            animation: float 6s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .message {
+            max-width: 600px;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: white;
+            margin: 2rem 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .photo-frame {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 8px solid rgba(255,255,255,0.3);
+            margin: 2rem auto;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><rect fill="%23ddd" width="300" height="300"/><circle fill="%23ccc" cx="150" cy="120" r="60"/><text x="150" y="280" font-size="20" fill="%23666" text-anchor="middle">💕</text></svg>') center/cover;
+            animation: pulse 2s infinite;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 2rem auto;
+        }
+        
+        .photo-container {
+            aspect-ratio: 1;
+            border-radius: 20px;
+            border: 6px solid rgba(255,255,255,0.4);
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .photo-container:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+        
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        
+        .photo-label {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        #page1 { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%); }
+        #page2 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        #page3 { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        #page4 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        
+        .nav-dots {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 100;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background: white;
+            transform: scale(1.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="nav-dots">
+        <div class="dot active" onclick="goToPage(1)"></div>
+        <div class="dot" onclick="goToPage(2)"></div>
+        <div class="dot" onclick="goToPage(3)"></div>
+        <div class="dot" onclick="goToPage(4)"></div>
+    </div>
+    
+    <section id="page1" class="page active">
+    <h1>Hi Tin! 👋</h1>
+    <div style="font-size: 2rem; margin: 2rem 0; line-height: 1.4;">
+        <div>Scroll down mo pls</div>
+        <div style="font-size: 3rem; color: #ff6b9d;">PLS PLS PLS 🙏💕</div>
+    </div>
+    <a href="#" class="btn" onclick="nextPage()">Scroll Na! ↓</a>
+</section>
+    
+    <section id="page2" class="page">
+        <h1>🖼️ Our Memories</h1>
+        <p class="message">I miss you so much bb. Look at our beautiful moments together bb ...</p>
+        <div class="photo-gallery">
+            <div class="photo-container">
+                <img src="PHOTOS/1.jpg" alt="Our memory 1" class="photo-placeholder">
+                <div class="photo-label">Photo 1</div>
+            </div>
+            <div class="photo-container">
+                <img src="PHOTOS/2.jpg" alt="Our memory 2" class="photo-placeholder">
+                <div class="photo-label">Photo 2</div>
+            </div>
+            <div class="photo-container">
+                <img src="PHOTOS/3.jpg" alt="Our memory 3" class="photo-placeholder">
+                <div class="photo-label">Photo 3</div>
+            </div>
+            <div class="photo-container">
+                <img src="PHOTOS/4.jpg" alt="Our memory 4" class="photo-placeholder">
+                <div class="photo-label">Photo 4</div>
+            </div>
+            <div class="photo-container">
+                <img src="PHOTOS/5.jpg" alt="Our memory 5" class="photo-placeholder">
+                <div class="photo-label">Photo 5</div>
+            </div>
+        </div>
+        <a href="#" class="btn" onclick="nextPage()">→ I Miss You</a>
+    </section>
+    
+    <section id="page3" class="page">
+        <div class="photo-frame"></div>
+        <h1>I Miss You bb 💔</h1>
+        <p class="message">miss ko ikaw bb. 😢💕</p>
+        
+        <!-- NEW: Miss You Button -->
+        <div style="margin: 2rem 0;">
+            <button id="missYouBtn" class="btn" style="background: #ff6b9d; border-color: #ff6b9d; padding: 1rem 3rem; font-size: 1.5rem;">
+                Do you miss me too? 💕
+            </button>
+            <p id="missStatus" style="color: #ffeb3b; font-size: 1.2rem; margin-top: 1rem; font-weight: 600; display: none;">YES! She misses you too! 🥰</p>
+        </div>
+        
+        <a href="#" class="btn" onclick="nextPage()">→ My Apologies</a>
+    </section>
+    
+    <section id="page4" class="page">
+        <h1><a href="#" style="color: white; text-decoration: none; font-family: 'Dancing Script', cursive; font-size: 4rem;">I'm So Sorry bb</a></h1>
+        <p class="message">[sorry po kung di ko na nareplyan chat mo sobrang nasaktan kasi ako non na nag agree ka. ayaw ko naman tlga mag break gusto ko lang non mafeel na love moko.nadala rin ako ng lungkot non im sorry.
+            di ko pala nasagot mga tanong mo. KILALA KO EX MO? HINDE PO. Bakit ako nag sinungaling na nalaman ko? kasi ayaw ko sabihin mo sakin kasi mabigat sya for me. Pero may nakita ako sa post may naka higa sa legs mo tas di ko na inalam kasi maskit.  IM SORRRRY HUHU ayaw naman kita iwan sabi ko don :(
+        </p>
+        
+        <a href="#" class="btn" style="background: #ff6b9d; border-color: #ff6b9d; font-size: 1.4rem;">I Love You Forever TIN💕</a>
+    </section>
+
+    <script>
+        let currentPage = 1;
+        
+        function nextPage() {
+            document.getElementById(`page${currentPage}`).classList.remove('active');
+            currentPage = currentPage % 4 + 1;
+            document.getElementById(`page${currentPage}`).classList.add('active');
+            updateDots();
+        }
+        
+        function goToPage(pageNum) {
+            document.getElementById(`page${currentPage}`).classList.remove('active');
+            currentPage = pageNum;
+            document.getElementById(`page${currentPage}`).classList.add('active');
+            updateDots();
+        }
+        
+        function updateDots() {
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index + 1 === currentPage);
+            });
+        }
+        
+        // NEW: Miss You Button functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const missBtn = document.getElementById('missYouBtn');
+            const missStatus = document.getElementById('missStatus');
+            const sheMissesYou = localStorage.getItem('ruvicMissesYou');
+            
+            if (sheMissesYou === 'yes') {
+                missBtn.innerHTML = '🥰 YES! Thank you bb!';
+                missBtn.style.background = '#4ecdc4';
+                missBtn.style.borderColor = '#4ecdc4';
+                missStatus.style.display = 'block';
+            }
+            
+            missBtn.addEventListener('click', function() {
+                this.innerHTML = '🥰 YES! Thank you bb!';
+                this.style.background = '#4ecdc4';
+                this.style.borderColor = '#4ecdc4';
+                missStatus.style.display = 'block';
+                localStorage.setItem('ruvicMissesYou', 'yes');
+            });
+        });
+        
+        // Floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = ['💕','💖','💗','💓','💞'][Math.floor(Math.random()*5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.getElementById('hearts').appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+        
+        // Twinkling stars
+        function createStar() {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.innerHTML = '✨';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            document.getElementById('stars').appendChild(star);
+        }
+        
+        // Initialize animations
+        setInterval(createHeart, 300);
+        for(let i = 0; i < 20; i++) {
+            setTimeout(createStar, i * 200);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowRight') nextPage();
+        });
+    </script>
+</body>
+</html>
